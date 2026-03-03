@@ -9,5 +9,16 @@ package talpa;
  * @author zxt02
  */
 public class Giocatore {
+    private int punteggio;
     
+    public Giocatore(){
+        punteggio = 0;
+    }
+    public void aumentaPunteggio() {
+        punteggio++;
+    }
+
+    public int getPunteggio() {
+        return punteggio;
+    }
 }

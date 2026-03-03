@@ -9,5 +9,13 @@ package talpa;
  * @author zxt02
  */
 public class Buca {
+    private int posizione;
     
+    public Buca(int p){
+        posizione = p;
+    }
+    
+    public int getPosizione(){
+        return posizione;
+    }
 }

@@ -4,6 +4,8 @@
  */
 package talpa;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author lin.elena
@@ -12,6 +14,7 @@ public class Form extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Form.class.getName());
 
+    
     /**
      * Creates new form Form
      */
@@ -65,6 +68,11 @@ public class Form extends javax.swing.JFrame {
         btnIstruzioni.setForeground(new java.awt.Color(255, 153, 0));
         btnIstruzioni.setText("Istruzioni");
         btnIstruzioni.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnIstruzioni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIstruzioniActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -138,6 +146,15 @@ public class Form extends javax.swing.JFrame {
     private void btnBucca2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBucca2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBucca2ActionPerformed
+
+    private void btnIstruzioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIstruzioniActionPerformed
+        JOptionPane.showMessageDialog(null, "Obiettivo del gioco \nColpisci la talpa  cliccando sulla buca in cui appare prima che scompaia. "+
+                "\nIl gioco mostra 6 buche.\n" +
+                "\nLa talpa appare in una buca casuale per pochi secondi.\n" +
+                "\nClicca velocemente sulla buca dove vedi la talpa.\n" +
+                "\nOgni colpo corretto aumenta il punteggio.\n" +
+                "\nSe non clicchi in tempo, la talpa scompare e riappare in un'altra posizione.");
+    }//GEN-LAST:event_btnIstruzioniActionPerformed
 
     /**
      * @param args the command line arguments
