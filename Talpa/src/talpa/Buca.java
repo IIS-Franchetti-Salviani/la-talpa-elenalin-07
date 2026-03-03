@@ -8,6 +8,6 @@ package talpa;
  *
  * @author zxt02
  */
-public class Talpa {
+public class Buca {
     
 }
