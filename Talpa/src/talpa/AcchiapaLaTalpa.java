@@ -14,7 +14,9 @@ public class AcchiapaLaTalpa {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Form f = new Form();
+        f.setSize(600, 500);
+        f.setVisible(true);
     }
     
 }

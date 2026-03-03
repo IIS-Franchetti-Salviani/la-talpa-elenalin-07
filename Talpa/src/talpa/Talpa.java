@@ -5,35 +5,43 @@
 package talpa;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
  * @author zxt02
  */
 public class Talpa extends Thread{
-    private int punteggio;
-    private ArrayList<Buca> buche;
-    private volatile boolean stato;
-    private int posizione = 0;
-    
-    public Talpa(ArrayList<Buca> buche) {
-        this.buche = buche;
-        stato = true;
+    private volatile int posizione = -1;
+    private volatile boolean attiva = true;
+    private int maxBuche;
+
+    public Talpa(int maxBuche) {
+        this.maxBuche = maxBuche;
     }
-    
-    public void setPosizione(int p){
-        posizione = p;
-    }
-    
-    public int geetPosizione(){
+
+    public int getPosizione() {
         return posizione;
     }
-    
-    public void termina(){
-        stato = false;
+
+    public void termina() {
+        attiva = false;
     }
-    
-    public boolean getStato(){
-        return stato;
+
+    @Override
+    public void run() {
+        Random random = new Random();
+
+        while (attiva) {
+            posizione = random.nextInt(maxBuche);
+
+            try {
+                Thread.sleep(1000); 
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            posizione = -1; // 
+        }
     }
 }

@@ -4,7 +4,12 @@
  */
 package talpa;
 
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *
@@ -13,14 +18,77 @@ import javax.swing.JOptionPane;
 public class Form extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Form.class.getName());
-
+    private Talpa talpa;
+    private Gestore g;
+    private ArrayList<Buca> buche;
+    private ArrayList<JButton> btnBuche;
+    private Giocatore giocatore;
     
     /**
      * Creates new form Form
      */
     public Form() {
         initComponents();
+        
+        UIManager.put("Panel.background", new java.awt.Color(232,249,255));
+        UIManager.put("OptionPane.background", new java.awt.Color(232,249,255));
+        
+        btnBuche = new ArrayList<>();
+        btnBuche.add(btnBuca1);
+        btnBuche.add(btnBuca2);
+        btnBuche.add(btnBuca3);
+        btnBuche.add(btnBuca4);
+        btnBuche.add(btnBuca5);
+        btnBuche.add(btnBuca6);
+        
+        buche = new ArrayList<>();
+        for(int i = 0; i < btnBuche.size(); i++){
+            buche.add(new Buca(i));
+        }
+        
+        talpa = new Talpa(buche.size());
+        
+        giocatore = new Giocatore();
+        g = new Gestore(buche, talpa, giocatore);
+        
+        for(JButton b: btnBuche){
+            b.setIcon(new ImageIcon(getClass().getResource("/immages/buca.jpg")));
+        }
     }
+    
+    public void start(){
+        talpa.start();
+
+            new Thread(() -> {
+                while (g.getGioco()) {
+                    int p = talpa.getPosizione();
+                    SwingUtilities.invokeLater(() -> {
+                        for (int i = 0; i < btnBuche.size(); i++) {
+                            if (i == p) {
+                                btnBuche.get(i).setIcon(new ImageIcon(getClass().getResource("/immages/talpa.jpg")));
+                            } else {
+                                btnBuche.get(i).setIcon(new ImageIcon(getClass().getResource("/immages/buca.jpg")));
+                            }
+                        }
+                    });
+
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+    }
+    
+    public void mostraTalpa(JButton b){
+        b.setIcon(new ImageIcon(getClass().getResource("/immages/buca.jpg")));
+    }
+    
+    public void nascondeTalpa(JButton b){
+        b.setIcon(new ImageIcon(getClass().getResource("/immages/talpa.jpg")));
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,35 +101,57 @@ public class Form extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnBucca1 = new javax.swing.JButton();
-        btnBucca2 = new javax.swing.JButton();
-        btnBucca3 = new javax.swing.JButton();
-        btnBucca4 = new javax.swing.JButton();
-        btnBucca5 = new javax.swing.JButton();
-        btnBucca6 = new javax.swing.JButton();
+        btnBuca1 = new javax.swing.JButton();
+        btnBuca2 = new javax.swing.JButton();
+        btnBuca3 = new javax.swing.JButton();
+        btnBuca4 = new javax.swing.JButton();
+        btnBuca5 = new javax.swing.JButton();
+        btnBuca6 = new javax.swing.JButton();
         btnStart = new javax.swing.JButton();
         btnIstruzioni = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(600, 600));
+        setMinimumSize(new java.awt.Dimension(600, 500));
+        setPreferredSize(new java.awt.Dimension(600, 500));
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel1.setPreferredSize(new java.awt.Dimension(600, 500));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 102));
         jLabel1.setText("Acchiapa la talpa");
 
-        btnBucca2.addActionListener(new java.awt.event.ActionListener() {
+        btnBuca1.setBackground(new java.awt.Color(204, 255, 204));
+
+        btnBuca2.setBackground(new java.awt.Color(204, 255, 204));
+        btnBuca2.setMaximumSize(new java.awt.Dimension(107, 7));
+        btnBuca2.setPreferredSize(new java.awt.Dimension(107, 7));
+        btnBuca2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBucca2ActionPerformed(evt);
+                btnBuca2ActionPerformed(evt);
             }
         });
+
+        btnBuca3.setBackground(new java.awt.Color(204, 255, 204));
+
+        btnBuca4.setBackground(new java.awt.Color(204, 255, 204));
+
+        btnBuca5.setBackground(new java.awt.Color(204, 255, 204));
+        btnBuca5.setMaximumSize(new java.awt.Dimension(107, 7));
+        btnBuca5.setPreferredSize(new java.awt.Dimension(107, 7));
+
+        btnBuca6.setBackground(new java.awt.Color(204, 255, 204));
 
         btnStart.setBackground(new java.awt.Color(204, 204, 255));
         btnStart.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnStart.setForeground(new java.awt.Color(51, 0, 153));
         btnStart.setText("Start");
         btnStart.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStartActionPerformed(evt);
+            }
+        });
 
         btnIstruzioni.setBackground(new java.awt.Color(255, 255, 204));
         btnIstruzioni.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -79,61 +169,61 @@ public class Form extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(227, 227, 227)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(135, 135, 135)
                 .addComponent(btnIstruzioni)
-                .addGap(22, 22, 22))
+                .addGap(26, 26, 26))
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(205, 205, 205)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnBuca4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuca1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(205, 205, 205)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnBucca4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBucca1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(62, 62, 62)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnBucca2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBucca5, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(53, 53, 53)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnBucca6, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBucca3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(92, Short.MAX_VALUE))
+                    .addComponent(btnBuca5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuca2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBuca6, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuca3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addGap(58, 58, 58)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnIstruzioni))
+                        .addComponent(btnBuca3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58)
+                        .addComponent(btnBuca6, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBuca1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuca2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(58, 58, 58)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnBucca3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBucca2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBucca1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(58, 58, 58)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnBucca4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBucca5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBucca6, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                        .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnBuca5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuca4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnIstruzioni)
+                    .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,18 +233,23 @@ public class Form extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBucca2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBucca2ActionPerformed
+    private void btnBuca2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuca2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnBucca2ActionPerformed
+    }//GEN-LAST:event_btnBuca2ActionPerformed
 
     private void btnIstruzioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIstruzioniActionPerformed
         JOptionPane.showMessageDialog(null, "Obiettivo del gioco \nColpisci la talpa  cliccando sulla buca in cui appare prima che scompaia. "+
-                "\nIl gioco mostra 6 buche.\n" +
-                "\nLa talpa appare in una buca casuale per pochi secondi.\n" +
-                "\nClicca velocemente sulla buca dove vedi la talpa.\n" +
-                "\nOgni colpo corretto aumenta il punteggio.\n" +
+                "\nIl gioco mostra 6 buche." +
+                "\nLa talpa appare in una buca casuale per pochi secondi." +
+                "\nClicca velocemente sulla buca dove vedi la talpa." +
+                "\nOgni colpo corretto aumenta il punteggio." +
                 "\nSe non clicchi in tempo, la talpa scompare e riappare in un'altra posizione.");
     }//GEN-LAST:event_btnIstruzioniActionPerformed
+
+    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
+        btnStart.setVisible(false);
+        start();
+    }//GEN-LAST:event_btnStartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,12 +277,12 @@ public class Form extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBucca1;
-    private javax.swing.JButton btnBucca2;
-    private javax.swing.JButton btnBucca3;
-    private javax.swing.JButton btnBucca4;
-    private javax.swing.JButton btnBucca5;
-    private javax.swing.JButton btnBucca6;
+    private javax.swing.JButton btnBuca1;
+    private javax.swing.JButton btnBuca2;
+    private javax.swing.JButton btnBuca3;
+    private javax.swing.JButton btnBuca4;
+    private javax.swing.JButton btnBuca5;
+    private javax.swing.JButton btnBuca6;
     private javax.swing.JButton btnIstruzioni;
     private javax.swing.JButton btnStart;
     private javax.swing.JLabel jLabel1;
