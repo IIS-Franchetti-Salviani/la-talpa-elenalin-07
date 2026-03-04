@@ -23,12 +23,15 @@ public class Form extends javax.swing.JFrame {
     private ArrayList<Buca> buche;
     private ArrayList<JButton> btnBuche;
     private Giocatore giocatore;
+    private int posCliccato;
     
     /**
      * Creates new form Form
      */
     public Form() {
         initComponents();
+        
+        posCliccato = -1;
         
         UIManager.put("Panel.background", new java.awt.Color(232,249,255));
         UIManager.put("OptionPane.background", new java.awt.Color(232,249,255));
@@ -71,14 +74,21 @@ public class Form extends javax.swing.JFrame {
                             }
                         }
                     });
-
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    g.controllaClick(posCliccato);
+                    posCliccato = -1;
+                    lblPunteggio.setText("" + g.getPunteggio());
                 }
             }).start();
+            
+    }
+    
+    public void click(){
+        
     }
     
     public void mostraTalpa(JButton b){
@@ -109,6 +119,8 @@ public class Form extends javax.swing.JFrame {
         btnBuca6 = new javax.swing.JButton();
         btnStart = new javax.swing.JButton();
         btnIstruzioni = new javax.swing.JButton();
+        lblPunteggio = new javax.swing.JLabel();
+        lblLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 500));
@@ -122,6 +134,11 @@ public class Form extends javax.swing.JFrame {
         jLabel1.setText("Acchiapa la talpa");
 
         btnBuca1.setBackground(new java.awt.Color(204, 255, 204));
+        btnBuca1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuca1ActionPerformed(evt);
+            }
+        });
 
         btnBuca2.setBackground(new java.awt.Color(204, 255, 204));
         btnBuca2.setMaximumSize(new java.awt.Dimension(107, 7));
@@ -133,20 +150,39 @@ public class Form extends javax.swing.JFrame {
         });
 
         btnBuca3.setBackground(new java.awt.Color(204, 255, 204));
+        btnBuca3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuca3ActionPerformed(evt);
+            }
+        });
 
         btnBuca4.setBackground(new java.awt.Color(204, 255, 204));
+        btnBuca4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuca4ActionPerformed(evt);
+            }
+        });
 
         btnBuca5.setBackground(new java.awt.Color(204, 255, 204));
         btnBuca5.setMaximumSize(new java.awt.Dimension(107, 7));
         btnBuca5.setPreferredSize(new java.awt.Dimension(107, 7));
+        btnBuca5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuca5ActionPerformed(evt);
+            }
+        });
 
         btnBuca6.setBackground(new java.awt.Color(204, 255, 204));
+        btnBuca6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuca6ActionPerformed(evt);
+            }
+        });
 
         btnStart.setBackground(new java.awt.Color(204, 204, 255));
         btnStart.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnStart.setForeground(new java.awt.Color(51, 0, 153));
         btnStart.setText("Start");
-        btnStart.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStartActionPerformed(evt);
@@ -157,12 +193,15 @@ public class Form extends javax.swing.JFrame {
         btnIstruzioni.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnIstruzioni.setForeground(new java.awt.Color(255, 153, 0));
         btnIstruzioni.setText("Istruzioni");
-        btnIstruzioni.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnIstruzioni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIstruzioniActionPerformed(evt);
             }
         });
+
+        lblPunteggio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lblLabel.setText("Punteggio:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -174,31 +213,44 @@ public class Form extends javax.swing.JFrame {
                 .addGap(135, 135, 135)
                 .addComponent(btnIstruzioni)
                 .addGap(26, 26, 26))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(205, 205, 205)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnBuca4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuca1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(70, 70, 70)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBuca5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuca2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBuca6, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuca3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(205, 205, 205)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblPunteggio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnBuca4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuca1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(70, 70, 70)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBuca5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuca2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBuca6, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuca3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(59, 59, 59))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel1)
-                .addGap(58, 58, 58)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel1)
+                        .addGap(58, 58, 58))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPunteggio)
+                            .addComponent(lblLabel))
+                        .addGap(43, 43, 43)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnBuca3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -234,7 +286,7 @@ public class Form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuca2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuca2ActionPerformed
-        // TODO add your handling code here:
+       posCliccato = 1;
     }//GEN-LAST:event_btnBuca2ActionPerformed
 
     private void btnIstruzioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIstruzioniActionPerformed
@@ -250,6 +302,26 @@ public class Form extends javax.swing.JFrame {
         btnStart.setVisible(false);
         start();
     }//GEN-LAST:event_btnStartActionPerformed
+
+    private void btnBuca1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuca1ActionPerformed
+        posCliccato = 0;
+    }//GEN-LAST:event_btnBuca1ActionPerformed
+
+    private void btnBuca3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuca3ActionPerformed
+        posCliccato = 2;
+    }//GEN-LAST:event_btnBuca3ActionPerformed
+
+    private void btnBuca4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuca4ActionPerformed
+       posCliccato = 3;
+    }//GEN-LAST:event_btnBuca4ActionPerformed
+
+    private void btnBuca5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuca5ActionPerformed
+       posCliccato = 4;
+    }//GEN-LAST:event_btnBuca5ActionPerformed
+
+    private void btnBuca6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuca6ActionPerformed
+       posCliccato = 5;
+    }//GEN-LAST:event_btnBuca6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -287,5 +359,7 @@ public class Form extends javax.swing.JFrame {
     private javax.swing.JButton btnStart;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblLabel;
+    private javax.swing.JLabel lblPunteggio;
     // End of variables declaration//GEN-END:variables
 }

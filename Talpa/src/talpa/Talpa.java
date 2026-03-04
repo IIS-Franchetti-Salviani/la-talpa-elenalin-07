@@ -41,7 +41,7 @@ public class Talpa extends Thread{
                 e.printStackTrace();
             }
 
-            posizione = -1; // 
+            posizione = -1; 
         }
     }
 }
