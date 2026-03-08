@@ -66,14 +66,17 @@ public class Form extends javax.swing.JFrame {
                 while (g.getGioco()) {
                     boolean colpitoTalpa;
                     punteggio = g.getPunteggio();
-                    if(punteggio <= 10){
-                        g.setTime(3000);
+                    if(punteggio <= 5){
+                        g.setTime(2000);
                     }
-                    else if(punteggio <= 20){
-                        g.setTime(1500);
+                    else if(punteggio <= 15){
+                        g.setTime(1200);
+                    }
+                    else if(punteggio <= 30){
+                        g.setTime(800);
                     }
                     else{
-                        g.setTime(700);
+                        g.setTime(600);
                     }
                     int p = talpa.getPosizione();
                     SwingUtilities.invokeLater(() -> {
@@ -94,11 +97,6 @@ public class Form extends javax.swing.JFrame {
                     colpitoTalpa = g.controllaClick(posCliccato);
                     if(colpitoTalpa && posCliccato != -1){
                         btnBuche.get(posCliccato).setEnabled(false);
-                        punteggio = g.getPunteggio();
-                        lblPunteggio.setText("" + punteggio);
-                    }
-                    else {
-                        g.diminuiPunteggio();
                         punteggio = g.getPunteggio();
                         lblPunteggio.setText("" + punteggio);
                     }
@@ -201,6 +199,7 @@ public class Form extends javax.swing.JFrame {
         btnStart.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnStart.setForeground(new java.awt.Color(51, 0, 153));
         btnStart.setText("Start");
+        btnStart.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStartActionPerformed(evt);
@@ -211,6 +210,7 @@ public class Form extends javax.swing.JFrame {
         btnIstruzioni.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnIstruzioni.setForeground(new java.awt.Color(255, 153, 0));
         btnIstruzioni.setText("Istruzioni");
+        btnIstruzioni.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnIstruzioni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIstruzioniActionPerformed(evt);
