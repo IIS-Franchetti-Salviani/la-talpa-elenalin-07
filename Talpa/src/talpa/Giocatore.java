@@ -17,6 +17,13 @@ public class Giocatore {
     public void aumentaPunteggio() {
         punteggio++;
     }
+    
+    public void diminuiPunteggio(){
+        punteggio--;
+        if(punteggio < 0){
+            punteggio = 0;
+        }
+    }
 
     public int getPunteggio() {
         return punteggio;

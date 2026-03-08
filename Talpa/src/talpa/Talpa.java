@@ -12,6 +12,7 @@ import java.util.Random;
  * @author zxt02
  */
 public class Talpa extends Thread{
+    private int time;
     private volatile int posizione = -1;
     private volatile boolean attiva = true;
     private int maxBuche;
@@ -28,6 +29,10 @@ public class Talpa extends Thread{
         attiva = false;
     }
 
+    public void setTime(int time){
+        this.time = time;
+    }
+    
     @Override
     public void run() {
         Random random = new Random();
@@ -36,7 +41,7 @@ public class Talpa extends Thread{
             posizione = random.nextInt(maxBuche);
 
             try {
-                Thread.sleep(1000); 
+                Thread.sleep(time); 
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

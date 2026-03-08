@@ -23,7 +23,7 @@ public class Form extends javax.swing.JFrame {
     private ArrayList<Buca> buche;
     private ArrayList<JButton> btnBuche;
     private Giocatore giocatore;
-    private int posCliccato;
+    private int posCliccato, punteggio;
     
     /**
      * Creates new form Form
@@ -61,9 +61,20 @@ public class Form extends javax.swing.JFrame {
     
     public void start(){
         talpa.start();
-
+        punteggio = g.getPunteggio();
             new Thread(() -> {
                 while (g.getGioco()) {
+                    boolean colpitoTalpa;
+                    punteggio = g.getPunteggio();
+                    if(punteggio <= 10){
+                        g.setTime(3000);
+                    }
+                    else if(punteggio <= 20){
+                        g.setTime(1500);
+                    }
+                    else{
+                        g.setTime(700);
+                    }
                     int p = talpa.getPosizione();
                     SwingUtilities.invokeLater(() -> {
                         for (int i = 0; i < btnBuche.size(); i++) {
@@ -71,6 +82,7 @@ public class Form extends javax.swing.JFrame {
                                 btnBuche.get(i).setIcon(new ImageIcon(getClass().getResource("/immages/talpa.jpg")));
                             } else {
                                 btnBuche.get(i).setIcon(new ImageIcon(getClass().getResource("/immages/buca.jpg")));
+                                btnBuche.get(i).setEnabled(true);
                             }
                         }
                     });
@@ -79,16 +91,22 @@ public class Form extends javax.swing.JFrame {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    g.controllaClick(posCliccato);
+                    colpitoTalpa = g.controllaClick(posCliccato);
+                    if(colpitoTalpa && posCliccato != -1){
+                        btnBuche.get(posCliccato).setEnabled(false);
+                        punteggio = g.getPunteggio();
+                        lblPunteggio.setText("" + punteggio);
+                    }
+                    else {
+                        g.diminuiPunteggio();
+                        punteggio = g.getPunteggio();
+                        lblPunteggio.setText("" + punteggio);
+                    }
+                    
                     posCliccato = -1;
-                    lblPunteggio.setText("" + g.getPunteggio());
                 }
             }).start();
             
-    }
-    
-    public void click(){
-        
     }
     
     public void mostraTalpa(JButton b){

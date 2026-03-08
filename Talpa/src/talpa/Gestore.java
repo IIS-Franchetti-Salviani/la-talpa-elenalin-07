@@ -33,10 +33,20 @@ public class Gestore{
         talpa.termina();
     }
 
-    public void controllaClick(int posizione) {
+    public boolean controllaClick(int posizione) {
         if (posizione == talpa.getPosizione()) {
             giocatore.aumentaPunteggio();
+            return true;
         }
+        return false;
+    }
+    
+    public void diminuiPunteggio(){
+        giocatore.diminuiPunteggio();
+    }
+    
+    public void setTime(int t){
+        talpa.setTime(t);
     }
 
     public int getPunteggio() {
