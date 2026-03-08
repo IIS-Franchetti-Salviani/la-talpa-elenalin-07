@@ -4,6 +4,8 @@
  */
 package talpa;
 
+import java.io.IOException;
+
 /**
  *
  * @author lin.elena
@@ -13,7 +15,7 @@ public class AcchiapaLaTalpa {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Form f = new Form();
         f.setSize(600, 500);
         f.setVisible(true);

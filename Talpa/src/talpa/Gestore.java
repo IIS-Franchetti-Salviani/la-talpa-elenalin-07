@@ -41,10 +41,6 @@ public class Gestore{
         return false;
     }
     
-    public void diminuiPunteggio(){
-        giocatore.diminuiPunteggio();
-    }
-    
     public void setTime(int t){
         talpa.setTime(t);
     }
