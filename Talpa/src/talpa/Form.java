@@ -4,11 +4,13 @@
  */
 package talpa;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 
 /**
@@ -23,12 +25,14 @@ public class Form extends javax.swing.JFrame {
     private ArrayList<Buca> buche;
     private ArrayList<JButton> btnBuche;
     private Giocatore giocatore;
-    private int posCliccato, punteggio;
+    private int posCliccato, punteggio, time, record;
+    private Timer timer;
+    private RecordManager rm;
     
     /**
      * Creates new form Form
      */
-    public Form() {
+    public Form() throws IOException {
         initComponents();
         
         posCliccato = -1;
@@ -57,6 +61,27 @@ public class Form extends javax.swing.JFrame {
         for(JButton b: btnBuche){
             b.setIcon(new ImageIcon(getClass().getResource("/immages/buca.jpg")));
         }
+        time = 60;
+        lblTime.setText(""+time);
+        
+        rm = new RecordManager();
+        String r = rm.legge();
+        if(r != null){
+            record = Integer.parseInt(r);
+        }
+        else{
+            record = 0;
+        }
+        
+        lblRecord.setText("" + record);
+        lblPunteggio.setText("0");
+    }
+    
+    public void timer(){
+        timer = new Timer(1000, e -> {
+            time--;
+            lblTime.setText(""+time);
+        });
     }
     
     public void start(){
@@ -102,6 +127,10 @@ public class Form extends javax.swing.JFrame {
                     }
                     
                     posCliccato = -1;
+                    if(time <= 0){
+                        g.termina();
+                        timer.stop();
+                    }
                 }
             }).start();
             
@@ -137,6 +166,10 @@ public class Form extends javax.swing.JFrame {
         btnIstruzioni = new javax.swing.JButton();
         lblPunteggio = new javax.swing.JLabel();
         lblLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblRecord = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblTime = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 500));
@@ -221,6 +254,10 @@ public class Form extends javax.swing.JFrame {
 
         lblLabel.setText("Punteggio:");
 
+        jLabel2.setText("Record:");
+
+        jLabel3.setText("Time:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -232,16 +269,28 @@ public class Form extends javax.swing.JFrame {
                 .addComponent(btnIstruzioni)
                 .addGap(26, 26, 26))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(205, 205, 205)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(205, 205, 205)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblPunteggio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(30, 30, 30)
+                                .addComponent(lblRecord, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblLabel)))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPunteggio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnBuca4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBuca1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -258,17 +307,21 @@ public class Form extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addGap(2, 2, 2)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel1)
-                        .addGap(58, 58, 58))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblPunteggio)
-                            .addComponent(lblLabel))
-                        .addGap(43, 43, 43)))
+                    .addComponent(jLabel3)
+                    .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblPunteggio, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblRecord, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnBuca3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,6 +372,8 @@ public class Form extends javax.swing.JFrame {
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         btnStart.setVisible(false);
         start();
+        timer();
+        timer.start();
     }//GEN-LAST:event_btnStartActionPerformed
 
     private void btnBuca1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuca1ActionPerformed
@@ -363,7 +418,13 @@ public class Form extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Form().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new Form().setVisible(true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -376,8 +437,12 @@ public class Form extends javax.swing.JFrame {
     private javax.swing.JButton btnIstruzioni;
     private javax.swing.JButton btnStart;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblLabel;
     private javax.swing.JLabel lblPunteggio;
+    private javax.swing.JLabel lblRecord;
+    private javax.swing.JLabel lblTime;
     // End of variables declaration//GEN-END:variables
 }
