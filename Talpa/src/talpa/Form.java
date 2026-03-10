@@ -20,11 +20,9 @@ import javax.swing.UIManager;
 public class Form extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Form.class.getName());
-    private Talpa talpa;
     private Gestore g;
     private ArrayList<Buca> buche;
     private ArrayList<JButton> btnBuche;
-    private Giocatore giocatore;
     private int posCliccato, punteggio, time, record;
     private Timer timer;
     private RecordManager rm;
@@ -53,10 +51,7 @@ public class Form extends javax.swing.JFrame {
             buche.add(new Buca(i));
         }
         
-        talpa = new Talpa(buche.size());
-        
-        giocatore = new Giocatore();
-        g = new Gestore(buche, talpa, giocatore);
+        g = new Gestore(buche);
         
         for(JButton b: btnBuche){
             b.setIcon(new ImageIcon(getClass().getResource("/immages/buca.jpg")));
@@ -87,7 +82,7 @@ public class Form extends javax.swing.JFrame {
     }
     
     public void start(){
-        talpa.start();
+        g.start();
         punteggio = g.getPunteggio();
             new Thread(() -> {
                 while (g.getGioco()) {
@@ -105,7 +100,7 @@ public class Form extends javax.swing.JFrame {
                     else{
                         g.setTime(600);
                     }
-                    int p = talpa.getPosizione();
+                    int p = g.getPosizione();
                     SwingUtilities.invokeLater(() -> {
                         for (int i = 0; i < btnBuche.size(); i++) {
                             if (i == p) {

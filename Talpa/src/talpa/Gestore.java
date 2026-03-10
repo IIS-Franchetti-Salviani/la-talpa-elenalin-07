@@ -18,10 +18,10 @@ public class Gestore{
     private Giocatore giocatore;
     private volatile boolean gioco = true;
 
-    public Gestore(ArrayList<Buca> buche, Talpa talpa, Giocatore giocatore) {
+    public Gestore(ArrayList<Buca> buche) {
         this.buche = buche;
-        this.talpa = talpa;
-        this.giocatore = giocatore;
+        this.talpa = new Talpa(buche.size());
+        this.giocatore = new Giocatore();
     }
 
     public boolean getGioco() {
@@ -33,6 +33,14 @@ public class Gestore{
         talpa.termina();
     }
 
+    public void start(){
+        talpa.start();
+    }
+    
+    public int getPosizione(){
+        return talpa.getPosizione();
+    }
+    
     public boolean controllaClick(int posizione) {
         if (posizione == talpa.getPosizione()) {
             giocatore.aumentaPunteggio();
