@@ -24,7 +24,7 @@ public class Talpa extends Thread{
     public int getPosizione() {
         return posizione;
     }
-
+    
     public void termina() {
         attiva = false;
     }

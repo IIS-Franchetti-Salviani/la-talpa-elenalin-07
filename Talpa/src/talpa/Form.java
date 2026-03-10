@@ -61,8 +61,7 @@ public class Form extends javax.swing.JFrame {
         for(JButton b: btnBuche){
             b.setIcon(new ImageIcon(getClass().getResource("/immages/buca.jpg")));
         }
-        time = 60;
-        lblTime.setText(""+time);
+        
         
         rm = new RecordManager();
         String r = rm.legge();
@@ -72,6 +71,9 @@ public class Form extends javax.swing.JFrame {
         else{
             record = 0;
         }
+        
+        time = 60;
+        lblTime.setText("" + time);
         
         lblRecord.setText("" + record);
         lblPunteggio.setText("0");
@@ -131,7 +133,7 @@ public class Form extends javax.swing.JFrame {
                         g.termina();
                         timer.stop();
                         try {
-                          rm.salva("" + punteggio);
+                          if(record < punteggio) rm.salva("" + punteggio);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
