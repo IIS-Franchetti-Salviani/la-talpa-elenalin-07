@@ -4,6 +4,7 @@
  */
 package talpa;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -17,13 +18,24 @@ public class Gestore{
     private Talpa talpa;
     private Giocatore giocatore;
     private volatile boolean gioco = true;
+    private RecordManager rm;
 
     public Gestore(ArrayList<Buca> buche) {
         this.buche = buche;
         this.talpa = new Talpa(buche.size());
         this.giocatore = new Giocatore();
+        rm = new RecordManager();
     }
 
+    public void salvaRecord(int p) throws IOException{
+        rm.salva("" + p);
+    }
+    
+    public String leggeRecord() throws IOException{
+        String r = rm.legge();
+        return r;
+    }
+    
     public boolean getGioco() {
         return gioco;
     }

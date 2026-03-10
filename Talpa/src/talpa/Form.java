@@ -25,7 +25,6 @@ public class Form extends javax.swing.JFrame {
     private ArrayList<JButton> btnBuche;
     private int posCliccato, punteggio, time, record;
     private Timer timer;
-    private RecordManager rm;
     
     /**
      * Creates new form Form
@@ -57,9 +56,7 @@ public class Form extends javax.swing.JFrame {
             b.setIcon(new ImageIcon(getClass().getResource("/immages/buca.jpg")));
         }
         
-        
-        rm = new RecordManager();
-        String r = rm.legge();
+        String r = g.leggeRecord();
         if(r != null){
             record = Integer.parseInt(r);
         }
@@ -128,7 +125,7 @@ public class Form extends javax.swing.JFrame {
                         g.termina();
                         timer.stop();
                         try {
-                          if(record < punteggio) rm.salva("" + punteggio);
+                          if(record < punteggio) g.salvaRecord(punteggio);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
